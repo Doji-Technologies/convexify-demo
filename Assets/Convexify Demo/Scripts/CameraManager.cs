@@ -20,7 +20,7 @@ namespace Doji.ConvexifyDemo {
             mainCamera = Camera.main.transform;
         }
 
-        public void OnModelLoader(GameObject g) {
+        public void OnModelLoaded(GameObject g) {
             MeshRenderer r = g.GetComponentInChildren<MeshRenderer>();
             if (r != null) {
                 FitCameraToBounds(r);
