@@ -49,6 +49,12 @@ namespace Doji.ConvexifyDemo {
         }
 
         public void CalculateConvexHulls() {
+            WebGLUtils.SetCursorToWaitJS();
+            Invoke("DelayedCalculate", 0.1f);
+        }
+
+        private void DelayedCalculate() {
+            WebGLUtils.ResetCursorJS();
             GameObject g = FileReceiver.Instance.LoadedObject;
             if (g == null) {
                 return;
