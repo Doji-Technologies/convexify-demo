@@ -5,7 +5,7 @@ namespace Doji.ConvexifyDemo {
     [RequireComponent(typeof(Camera))]
     public class MouseLook : MonoBehaviour {
 
-        private float mainSpeed = 20.0f; //regular speed
+        private float mainSpeed = 5.0f; //regular speed
         private float shiftAdd = 250.0f; //multiplied by how long shift is held.  Basically running
         private float maxShift = 1000.0f; //Maximum speed when holdin gshift
         private float camSens = 0.25f; //How sensitive it with mouse
