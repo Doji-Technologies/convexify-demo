@@ -158,7 +158,14 @@
                   var extension = first.name.split('.').pop();
                   switch (extension) {
                     case "obj":
-                      unityInstance.SendMessage("FileReceiver", "OBJSelected", window.URL.createObjectURL(first), first);
+                      var fileInfo = {
+                        url: window.URL.createObjectURL(first),
+                        fileName: first.name,
+                        size: first.size
+                      };
+                      console.log(fileInfo.fileName);
+                      console.log(fileInfo.url);
+                      unityInstance.SendMessage("FileReceiver", "OBJSelected", JSON.stringify(fileInfo));
                       break;
                     default:
                       console.log("Error", "Unsupported file type: " + extension);

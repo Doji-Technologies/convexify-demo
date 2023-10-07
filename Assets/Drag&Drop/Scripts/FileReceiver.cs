@@ -1,5 +1,4 @@
-﻿using Convexify;
-using Dummiesman;
+﻿using Dummiesman;
 using System.Collections;
 using System.IO;
 using UnityEngine;
@@ -23,11 +22,11 @@ namespace Doji.ConvexifyDemo {
 
 #if UNITY_EDITOR
         private void Awake() {
-            StartCoroutine(LoadOBJFile(@"file:\\\sample.obj"));
+            StartCoroutine(LoadOBJFile(@"file:\\\sample.obj", "sample.obj"));
         }
 #endif
 
-        private IEnumerator LoadOBJFile(string url) {
+        private IEnumerator LoadOBJFile(string url, string fileName) {
             using UnityWebRequest wr = UnityWebRequest.Get(url);
             wr.SendWebRequest();
             while (!wr.isDone) {
@@ -38,12 +37,22 @@ namespace Doji.ConvexifyDemo {
             OBJLoader objLoader = new OBJLoader();
             using MemoryStream stream = new MemoryStream(data);
             LoadedObject = objLoader.Load(stream);
+            LoadedObject.name = fileName;
             MainUI.Instance.ShowMainView();
             CameraManager.Instance.OnModelLoaded(LoadedObject);
         }
 
-        public void OBJSelected(string url) {
-            StartCoroutine(LoadOBJFile(url));
+        public void OBJSelected(string fileInfoJson) {
+            FileInfo fileInfo = JsonUtility.FromJson<FileInfo>(fileInfoJson);
+            StartCoroutine(LoadOBJFile(fileInfo.url, Path.GetFileNameWithoutExtension(fileInfo.fileName)));
+        }
+
+
+        [System.Serializable]
+        public class FileInfo {
+            public string url;
+            public string fileName;
+            public string size;
         }
     }
 }

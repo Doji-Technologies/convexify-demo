@@ -11,6 +11,8 @@ namespace Doji.ConvexifyDemo {
 
         public GameObject ShowModelToggle;
         public GameObject ShowCHToggle;
+        public GameObject ExportButton;
+
         public GameObject VisualizationObject;
 
         public static MainUI Instance {
@@ -29,6 +31,7 @@ namespace Doji.ConvexifyDemo {
             VHACDProperties.Instance.gameObject.SetActive(false);
             ShowModelToggle.SetActive(false);
             ShowCHToggle.SetActive(false);
+            ExportButton.SetActive(false);
         }
 
         /// <summary>
@@ -46,6 +49,7 @@ namespace Doji.ConvexifyDemo {
             VHACDProperties.Instance.gameObject.SetActive(false);
             ShowModelToggle.SetActive(true);
             ShowCHToggle.SetActive(true);
+            ExportButton.SetActive(true);
         }
 
         public void CalculateConvexHulls() {
@@ -74,7 +78,7 @@ namespace Doji.ConvexifyDemo {
         /// Displays the generated convexhulls by rendering them as meshes.
         /// </summary>
         private void VisualizeConvexHulls(ConvexDecomposition cd, GameObject orig) {
-            VisualizationObject = new GameObject("Visualization");
+            VisualizationObject = new GameObject(orig.name);
             VisualizationObject.transform.position = orig.transform.position;
             VisualizationObject.transform.rotation = orig.transform.rotation;
             VisualizationObject.transform.localScale = orig.transform.localScale;
