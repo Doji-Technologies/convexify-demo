@@ -163,8 +163,6 @@
                         fileName: first.name,
                         size: first.size
                       };
-                      console.log(fileInfo.fileName);
-                      console.log(fileInfo.url);
                       unityInstance.SendMessage("FileReceiver", "OBJSelected", JSON.stringify(fileInfo));
                       break;
                     default:

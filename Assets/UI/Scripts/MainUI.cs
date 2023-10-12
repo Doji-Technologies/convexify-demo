@@ -91,6 +91,7 @@ namespace Doji.ConvexifyDemo {
                 GameObject g = new GameObject();
                 g.transform.SetParent(VisualizationObject.transform, false);
                 g.name = $"ConvexHull {i} ({ch.Points.Count} vertices, {ch.Indices.Count / 3} tris)";
+                m.name = $"{orig.name}_ConvexHull_{{i}}" ;
                 var mf = g.AddComponent<MeshFilter>();
                 var mr = g.AddComponent<MeshRenderer>();
                 mr.sharedMaterial = new Material(Shader.Find("Standard"));
