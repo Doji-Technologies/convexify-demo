@@ -22,7 +22,8 @@ namespace Doji.ConvexifyDemo {
 
 #if UNITY_EDITOR
         private void Awake() {
-            StartCoroutine(LoadOBJFile(@"file:\\\sample.obj", "sample.obj"));
+            string filePath = @"file:\\\bunny.obj";
+            StartCoroutine(LoadOBJFile(filePath, Path.GetFileName(filePath)));
         }
 #endif
 

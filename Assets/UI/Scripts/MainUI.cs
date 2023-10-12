@@ -78,7 +78,7 @@ namespace Doji.ConvexifyDemo {
         /// Displays the generated convexhulls by rendering them as meshes.
         /// </summary>
         private void VisualizeConvexHulls(ConvexDecomposition cd, GameObject orig) {
-            VisualizationObject = new GameObject(orig.name);
+            VisualizationObject = new GameObject("Visualization");
             VisualizationObject.transform.position = orig.transform.position;
             VisualizationObject.transform.rotation = orig.transform.rotation;
             VisualizationObject.transform.localScale = orig.transform.localScale;

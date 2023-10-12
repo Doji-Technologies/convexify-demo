@@ -14,6 +14,11 @@ namespace Doji.ConvexifyDemo {
         }
 
         private void OnExportClicked() {
+            string name = "unknown";
+            GameObject obj = FileReceiver.Instance.LoadedObject;
+            if (obj != null) {
+                name = gameObject.name;
+            }
             GameObject g = MainUI.Instance.VisualizationObject;
             if (g == null) {
                 return;
@@ -21,9 +26,9 @@ namespace Doji.ConvexifyDemo {
             IEnumerable<Mesh> meshes = g.GetComponentsInChildren<MeshFilter>().Select(mf => mf.sharedMesh);
 #if UNITY_WEBGL && ! UNITY_EDITOR
             byte[] objFile = OBJExporter.Serialize(meshes);
-            WebGLUtils.WriteFile(objFile, $"{g.name}_convex_hulls.obj", MimeType.Unknown);
+            WebGLUtils.WriteFile(objFile, $"{name}_convex_hulls.obj", MimeType.Unknown);
 #else
-            OBJExporter.WriteToFile(meshes, $"{g.name}_convex_hulls.obj");
+            OBJExporter.WriteToFile(meshes, $"{name}_convex_hulls.obj");
 #endif
 
         }

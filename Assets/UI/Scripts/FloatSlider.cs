@@ -20,7 +20,7 @@ namespace Doji.ConvexifyDemo {
         }
 
         private string ToString(float value) {
-            return string.Format("{0:F1}", value);
+            return string.Format("{0:F3}", value);
         }
         internal void SetValue(float value) {
             _slider.value = value;
