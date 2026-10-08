@@ -7,6 +7,9 @@
 /[Oo]bj/
 /[Bb]uilds/
 /[Ll]ogs/
+
+# Burst output of Web player builds
+/Data/
 /[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.

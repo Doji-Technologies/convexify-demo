@@ -1,0 +1,82 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:demo="Doji.ConvexifyDemo">
+    <Style src="Main.uss" />
+    <ui:VisualElement name="app" class="app">
+        <ui:VisualElement name="viewport" class="viewport" />
+
+        <ui:VisualElement name="panel" class="panel">
+            <ui:VisualElement class="brand">
+                <ui:VisualElement class="brand__mark">
+                    <ui:VisualElement class="brand__mark-inner" />
+                </ui:VisualElement>
+                <ui:VisualElement class="brand__text">
+                    <ui:Label text="Convexify" class="brand__title" />
+                    <ui:Label text="Convex decomposition for Unity" class="brand__subtitle" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:ScrollView name="scroll" class="panel__scroll" horizontal-scroller-visibility="Hidden">
+                <ui:VisualElement class="section">
+                    <ui:Label text="MODEL" class="section__title" />
+                    <ui:VisualElement class="model-card">
+                        <ui:Label name="model-name" text="No model" class="model-card__name" />
+                        <ui:Label name="model-stats" text="Load a sample or your own .obj file" class="model-card__stats" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="samples" class="chips" />
+                    <ui:Button name="open-button" text="Open .obj file" class="button button--secondary" />
+                    <ui:Label name="drop-hint" text="You can also drop a .obj file onto the page." class="caption" />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="section">
+                    <ui:VisualElement class="section__header">
+                        <ui:Label text="DECOMPOSITION" class="section__title" />
+                        <ui:Button name="reset-button" text="Reset" class="link-button" />
+                    </ui:VisualElement>
+                    <demo:ParamSlider name="max-hulls" label="Max hulls" low="1" high="256" integer="true"
+                        hint="Upper limit for the number of convex hulls. Hulls merge until the count fits." />
+                    <demo:ParamSlider name="resolution" label="Voxel resolution" low="16" high="256" integer="true"
+                        hint="Voxels along each axis. Higher values capture more detail and take longer." />
+                    <demo:ParamSlider name="volume-error" label="Volume error" low="0.01" high="20" logarithmic="true" format="0.##" suffix=" %"
+                        hint="A part stops splitting when its hull is within this percentage of its voxel volume." />
+                    <demo:ParamSlider name="recursion-depth" label="Max recursion depth" low="1" high="15" integer="true"
+                        hint="How many times a part can be split in two." />
+                    <demo:ParamSlider name="max-vertices" label="Max vertices per hull" low="8" high="256" integer="true"
+                        hint="Vertex limit for each output hull." />
+                    <demo:Segmented name="fill-mode" label="Fill mode" choices="Flood fill,Surface,Raycast"
+                        hint="How the inside of the mesh is found. Raycast handles meshes with holes. Surface makes hollow hulls." />
+                    <demo:Switch name="shrink-wrap" label="Shrink wrap"
+                        hint="Moves the hull vertices onto the surface of the source mesh." />
+                    <demo:Switch name="live-update" label="Live update" value="true"
+                        hint="Computes the hulls again as soon as a setting changes." />
+                </ui:VisualElement>
+
+                <ui:VisualElement class="section">
+                    <ui:Label text="VIEW" class="section__title" />
+                    <demo:Switch name="show-hulls" label="Convex hulls" value="true" hint="Shows the convex hulls." />
+                    <demo:Switch name="show-edges" label="Hull edges" value="true" hint="Outlines the faces of each hull." />
+                    <demo:Switch name="show-model" label="Source model"
+                        hint="Shows the source mesh. With the hulls visible, it is drawn as a ghost that shows the parts outside the hulls." />
+                    <demo:ParamSlider name="explode" label="Explode" low="0" high="1" format="0.00"
+                        hint="Moves the hulls apart to show how they divide the shape." />
+                </ui:VisualElement>
+            </ui:ScrollView>
+
+            <ui:VisualElement class="panel__footer">
+                <ui:Label name="hint" class="hint" />
+                <ui:Button name="compute-button" text="Compute" class="button button--secondary compute-button" />
+                <ui:Button name="export-button" text="Export hulls as .obj" class="button button--primary" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+
+        <ui:VisualElement name="status" class="status" picking-mode="Ignore">
+            <ui:VisualElement name="status-dot" class="status__dot" picking-mode="Ignore" />
+            <ui:Label name="status-text" text="Ready" class="status__text" picking-mode="Ignore" />
+        </ui:VisualElement>
+
+        <ui:Label name="help" class="help" picking-mode="Ignore"
+            text="Drag to orbit  ·  Right-drag to pan  ·  Scroll to zoom  ·  Double-click to frame" />
+
+        <ui:VisualElement name="loading" class="loading" picking-mode="Ignore">
+            <ui:Label name="loading-text" text="Loading" class="loading__text" picking-mode="Ignore" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,51 +1,37 @@
 mergeInto(LibraryManager.library, {
-    SetCursorToWait: function () {
-        document.getElementById("unity-canvas").style.cursor = "wait";
-    },
-    ResetCursor: function () {
-        document.getElementById("unity-canvas").style.cursor = "default";
-    },
-    DownloadFile : function(byteArrayPointer, byteArrayLength, fileNamePointer, fileTypePointer) {
-        var byteArray = new Uint8Array(Module.HEAPU8.buffer, byteArrayPointer, byteArrayLength);
-        var fileName = Pointer_stringify(fileNamePointer);
-        var fileType = Pointer_stringify(fileTypePointer);
-
-        var blob = new Blob([byteArray], { type: fileType });
-        var url = URL.createObjectURL(blob);
-
-        var a = document.createElement('a');
-        a.href = url;
-        a.download = fileName;
-        a.style.display = 'none';
-
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-
-        URL.revokeObjectURL(url);
-    },
-    DownloadFileStream: function(streamPointer, fileNamePointer, fileTypePointer) {
-        var stream = Module.FS_stream_manager.getStreamFromPointer(streamPointer);
-        if (!stream) {
-            console.error("Stream not found");
-            return;
+    ConvexifyOpenFilePicker: function (gameObjectNamePtr, methodNamePtr, acceptPtr) {
+        var gameObjectName = UTF8ToString(gameObjectNamePtr);
+        var methodName = UTF8ToString(methodNamePtr);
+        var input = document.getElementById("convexify-file-input");
+        if (!input) {
+            input = document.createElement("input");
+            input.type = "file";
+            input.id = "convexify-file-input";
+            input.style.display = "none";
+            document.body.appendChild(input);
         }
+        input.accept = UTF8ToString(acceptPtr);
+        input.onchange = function () {
+            var file = input.files && input.files[0];
+            input.value = "";
+            if (!file) return;
+            var info = { url: URL.createObjectURL(file), fileName: file.name, size: String(file.size) };
+            SendMessage(gameObjectName, methodName, JSON.stringify(info));
+        };
+        input.click();
+    },
 
-        var fileName = Pointer_stringify(fileNamePointer);
-        var fileType = Pointer_stringify(fileTypePointer);
-
-        var blob = new Blob([new Uint8Array(stream.contents, 0, stream.contents.length)], { type: fileType });
+    ConvexifyDownloadFile: function (bytesPtr, length, fileNamePtr, mimeTypePtr) {
+        var bytes = HEAPU8.slice(bytesPtr, bytesPtr + length);
+        var blob = new Blob([bytes], { type: UTF8ToString(mimeTypePtr) });
         var url = URL.createObjectURL(blob);
-
-        var a = document.createElement('a');
+        var a = document.createElement("a");
         a.href = url;
-        a.download = fileName;
-        a.style.display = 'none';
-
+        a.download = UTF8ToString(fileNamePtr);
+        a.style.display = "none";
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
-
-        URL.revokeObjectURL(url);
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
     }
 });
