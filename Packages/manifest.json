@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.doji.convexify": "file:../../vhacd-unity/Packages/com.doji.convexify",
+    "tools.doji.convexify": "file:../../vhacd-unity/tools.doji.convexify",
     "com.unity.ide.visualstudio": "2.0.26",
     "com.unity.inputsystem": "1.20.1",
     "com.unity.multiplayer.center": "2.0.1",

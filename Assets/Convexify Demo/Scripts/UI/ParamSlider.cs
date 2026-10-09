@@ -105,6 +105,14 @@ namespace Doji.ConvexifyDemo {
         }
 
         /// <summary>Sets the value without raising <see cref="ValueChanged"/>.</summary>
+        /// <summary>Sets the value like a user would: the slider moves and <see cref="ValueChanged"/> is raised.</summary>
+        public void SetValue(float value) {
+            _slider.value = ToSlider(Mathf.Clamp(value, Mathf.Min(_low, _high), Mathf.Max(_low, _high)));
+        }
+
+        /// <summary>The handle of the slider, for scripted pointer animations.</summary>
+        public VisualElement Dragger => _slider.Q(className: BaseSlider<float>.draggerUssClassName);
+
         public void SetValueWithoutNotify(float value) {
             Value = value;
         }

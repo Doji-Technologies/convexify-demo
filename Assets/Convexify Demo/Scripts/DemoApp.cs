@@ -61,6 +61,28 @@ namespace Doji.ConvexifyDemo {
 
         private const string DefaultHint = "Hover over a setting to see what it does.";
 
+        // ---------------------------------------------------------------- scripting access (used by the video director)
+
+        /// <summary>The UI document of the demo.</summary>
+        public UIDocument Document { get; private set; }
+
+        /// <summary>The decomposition that runs for the current model.</summary>
+        public LiveDecomposition Decomposition => _decomposition;
+
+        /// <summary>The object that renders the hulls. It has the transform of the model root.</summary>
+        public GameObject HullObject => _hulls;
+
+        public OrbitCamera Orbit => _orbit;
+
+        /// <summary>The world bounds of the current model.</summary>
+        public Bounds ModelBounds => _modelBounds;
+
+        /// <summary>An offset added to the view center, in normalized device coordinates.</summary>
+        public Vector2 ExtraScreenShift { get; set; }
+
+        /// <summary>True while a model loads.</summary>
+        public bool IsLoading => _loading != null;
+
         private void Awake() {
             name = "App"; // the Web page sends messages to this name
             Application.targetFrameRate = 60;
@@ -106,18 +128,19 @@ namespace Doji.ConvexifyDemo {
             if (_stale) {
                 _computeDot.style.opacity = 0.35f + 0.65f * Mathf.Abs(Mathf.Sin(Time.unscaledTime * 3f));
             }
-            _orbit.ScreenShift = FreeAreaShift();
+            _orbit.ScreenShift = FreeAreaShift() + ExtraScreenShift;
         }
 
         /// <summary>The offset that centers the 3D view in the screen area next to (or above) the panel.</summary>
         private Vector2 FreeAreaShift() {
-            Rect app = _app.layout, panel = _panel.layout;
+            // world bounds include the translate of a sliding panel
+            Rect app = _app.worldBound, panel = _panel.worldBound;
             if (float.IsNaN(app.width) || app.width <= 0 || app.height <= 0) {
                 return Vector2.zero;
             }
             return _app.ClassListContains("app--compact")
                 ? new Vector2(0, (app.height - panel.yMin) / app.height)
-                : new Vector2(panel.xMax / app.width, 0);
+                : new Vector2(Mathf.Max(0f, panel.xMax - app.xMin) / app.width, 0);
         }
 
         private void OnDestroy() {
@@ -139,7 +162,7 @@ namespace Doji.ConvexifyDemo {
             public string size;
         }
 
-        private void LoadSample(int index) {
+        public void LoadSample(int index) {
             string path = Path.Combine(Application.streamingAssetsPath, s_samples[index].File);
             string url = path.Contains("://") ? path : new Uri(path).AbsoluteUri;
             Load(url, s_samples[index].Name, index);
@@ -331,6 +354,7 @@ namespace Doji.ConvexifyDemo {
             panelSettings.clearColor = false;
 
             var document = gameObject.AddComponent<UIDocument>();
+            Document = document;
             document.panelSettings = panelSettings;
             document.visualTreeAsset = Resources.Load<VisualTreeAsset>("ConvexifyDemo/Main");
             VisualElement root = document.rootVisualElement;

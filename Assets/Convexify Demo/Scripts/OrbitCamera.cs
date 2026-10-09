@@ -23,6 +23,7 @@ namespace Doji.ConvexifyDemo {
         private float _pitch = 22f, _targetPitch = 22f;
         private float _distance = 5f, _targetDistance = 5f;
         private float _radius = 1f;
+        private float _fitDistance = 5f;
 
         private void Awake() {
             _camera = GetComponent<Camera>();
@@ -30,22 +31,47 @@ namespace Doji.ConvexifyDemo {
 
         /// <summary>Frames <paramref name="bounds"/> from the default angle.</summary>
         public void Frame(Bounds bounds, bool instant) {
+            Frame(bounds, instant, keepAngles: false);
+        }
+
+        /// <summary>Frames <paramref name="bounds"/>. With <paramref name="keepAngles"/>, only the pivot and the distance change.</summary>
+        public void Frame(Bounds bounds, bool instant, bool keepAngles) {
             _radius = Mathf.Max(bounds.extents.magnitude, 1e-4f);
             _targetPivot = bounds.center;
-            _targetYaw = -35f;
-            _targetPitch = 22f;
+            if (!keepAngles) {
+                _targetYaw = -35f;
+                _targetPitch = 22f;
+            }
             // fit the bounding sphere into the free screen area, vertically and horizontally
             float tanHalf = Mathf.Tan(_camera.fieldOfView * 0.5f * Mathf.Deg2Rad);
             float tanVertical = tanHalf * (1f - Mathf.Abs(ScreenShift.y));
             float tanHorizontal = tanHalf * _camera.aspect * (1f - Mathf.Abs(ScreenShift.x));
             float halfAngle = Mathf.Atan(Mathf.Min(tanVertical, tanHorizontal));
             _targetDistance = _radius / Mathf.Sin(halfAngle) * 0.9f;
+            _fitDistance = _targetDistance;
             if (instant) {
                 _pivot = _targetPivot;
                 _yaw = _targetYaw;
                 _pitch = _targetPitch;
                 _distance = _targetDistance;
                 Apply();
+            }
+        }
+
+        /// <summary>Turns the view around the vertical axis by <paramref name="degrees"/>.</summary>
+        public void AddYaw(float degrees) {
+            _targetYaw += degrees;
+        }
+
+        /// <summary>Sets the view angles and the distance as a multiple of the framed distance.</summary>
+        public void SetView(float yaw, float pitch, float zoom, bool instant) {
+            _targetYaw = yaw;
+            _targetPitch = pitch;
+            _targetDistance = _fitDistance * zoom;
+            if (instant) {
+                _yaw = _targetYaw;
+                _pitch = _targetPitch;
+                _distance = _targetDistance;
             }
         }
 
