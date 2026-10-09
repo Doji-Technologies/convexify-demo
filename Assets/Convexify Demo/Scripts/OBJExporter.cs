@@ -1,6 +1,6 @@
 using System.Globalization;
 using System.Text;
-using Convexify;
+using Doji.Convexify;
 using Unity.Mathematics;
 
 namespace Doji.ConvexifyDemo {

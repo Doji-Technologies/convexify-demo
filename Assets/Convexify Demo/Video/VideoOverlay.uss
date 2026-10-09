@@ -1,0 +1,170 @@
+/* Overlay of the release video: captions, title cards, pointer. Laid out at 1920 x 1080. */
+
+.v-root {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    color: rgb(236, 239, 245);
+}
+
+Label {
+    margin: 0;
+    padding: 0;
+    color: rgb(236, 239, 245);
+}
+
+/* ---------- full-screen cards ---------- */
+
+.v-backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgb(11, 12, 15);
+    opacity: 0;
+}
+
+.v-card {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+}
+
+.v-mark {
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background-color: rgb(138, 180, 255);
+    rotate: 45deg;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 44px;
+}
+
+.v-mark__inner {
+    width: 28px;
+    height: 28px;
+    border-radius: 7px;
+    background-color: rgb(11, 12, 15);
+}
+
+.v-title {
+    font-size: 104px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+}
+
+.v-subtitle {
+    font-size: 34px;
+    color: rgb(150, 160, 182);
+    margin-top: 14px;
+}
+
+.v-line {
+    font-size: 30px;
+    color: rgb(214, 220, 232);
+    margin-top: 10px;
+}
+
+.v-line--accent {
+    color: rgb(138, 180, 255);
+    -unity-font-style: bold;
+}
+
+.v-spacer {
+    height: 44px;
+}
+
+.v-pills {
+    flex-direction: row;
+    margin-top: 8px;
+}
+
+.v-pill {
+    font-size: 24px;
+    padding: 10px 22px;
+    margin: 0 8px;
+    border-radius: 24px;
+    border-width: 1px;
+    border-color: rgba(138, 180, 255, 0.45);
+    background-color: rgba(138, 180, 255, 0.1);
+    color: rgb(190, 210, 255);
+}
+
+/* ---------- code card ---------- */
+
+.v-code {
+    padding: 40px 56px;
+    border-radius: 22px;
+    border-width: 1px;
+    border-color: rgba(255, 255, 255, 0.08);
+    background-color: rgb(20, 22, 29);
+    margin-top: 40px;
+}
+
+.v-code__line {
+    font-size: 34px;
+    color: rgb(214, 220, 232);
+    margin: 3px 0;
+}
+
+.v-code__note {
+    font-size: 26px;
+    color: rgb(150, 160, 182);
+    margin-top: 34px;
+}
+
+/* ---------- caption in the free 3D area ---------- */
+
+.v-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 76px;
+    align-items: center;
+    opacity: 0;
+}
+
+.v-chapter {
+    font-size: 19px;
+    letter-spacing: 3px;
+    -unity-font-style: bold;
+    color: rgb(138, 180, 255);
+    margin-bottom: 12px;
+}
+
+.v-headline {
+    font-size: 54px;
+    -unity-font-style: bold;
+    -unity-text-align: middle-center;
+}
+
+.v-subline {
+    font-size: 28px;
+    color: rgb(170, 179, 199);
+    margin-top: 12px;
+    -unity-text-align: middle-center;
+}
+
+/* ---------- pointer ---------- */
+
+.v-cursor {
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    margin-left: -17px;
+    margin-top: -17px;
+    border-radius: 17px;
+    border-width: 3px;
+    border-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(255, 255, 255, 0.18);
+    opacity: 0;
+}

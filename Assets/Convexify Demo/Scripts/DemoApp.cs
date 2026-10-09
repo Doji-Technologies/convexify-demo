@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Globalization;
 using System.IO;
-using Convexify;
+using Doji.Convexify;
 using Dummiesman;
 using Unity.Collections;
 using Unity.Mathematics;

@@ -1,6 +1,6 @@
 using System;
 using System.Diagnostics;
-using Convexify;
+using Doji.Convexify;
 using Unity.Collections;
 using Unity.Mathematics;
 
